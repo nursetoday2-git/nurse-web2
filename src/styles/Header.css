@@ -1,0 +1,384 @@
+/* Header.css - Matching Hero Section Design */
+@import url('https://fonts.cdnfonts.com/css/boowie');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.header-body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.942);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 158, 125, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 158, 125, 0.2);
+  transition: all 0.3s ease;
+}
+
+.logo-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 158, 125, 0.3);
+}
+
+.logo-text {
+  font-family: 'Boowie', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #49796B;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logo-text:hover {
+  color: #49796B;
+}
+
+/* Desktop Navigation */
+.desktop-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.desktop-nav a {
+  font-family: "proxima-nova", "Helvetica Nueue", helvetica, arial, sans-serif;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #49796B;
+  text-decoration: none;
+  background: rgba(0, 158, 125, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  border: 1px solid rgba(0, 158, 125, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.desktop-nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 158, 125, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.desktop-nav a:hover::before {
+  left: 100%;
+}
+
+.desktop-nav a:hover {
+  background: rgba(0, 158, 125, 0.1);
+   color: #49796B;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 30px rgba(0, 158, 125, 0.15),
+    0 0 40px rgba(0, 158, 125, 0.1);
+  color: #007d63;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: #49796B;  
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover span {
+   color: #49796B;
+  box-shadow: 0 0 15px rgba(0, 158, 125, 0.4);
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  padding: 80px 40px 40px;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1002;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(0, 158, 125, 0.1);
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  background: transparent;
+  border: none;
+  font-size: 3rem;
+   color: #49796B;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.3s ease;
+  font-weight: 300;
+}
+
+.close-btn:hover {
+  color: #007d63;
+  transform: rotate(90deg);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-nav a {
+  font-family: "proxima-nova", "Helvetica Nueue", helvetica, arial, sans-serif;
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  font-weight: 500;
+   color: #49796B;
+  text-decoration: none;
+  background: rgba(0, 158, 125, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  border: 1px solid rgba(0, 158, 125, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.sidebar-nav a:hover {
+  background: rgba(0, 158, 125, 0.1);
+   color: #49796B;
+  transform: translateX(-5px);
+  box-shadow: 
+    0 10px 30px rgba(0, 158, 125, 0.15),
+    0 0 40px rgba(0, 158, 125, 0.1);
+  color: #007d63;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1001;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1280px) {
+  .header-body {
+    padding: 16px 30px;
+  }
+  
+  .desktop-nav {
+    gap: 6px;
+  }
+  
+  .desktop-nav a {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+  
+  .logo {
+    gap: 12px;
+  }
+  
+  .logo-image {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .logo-text {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 1180px) {
+  .desktop-nav a {
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    letter-spacing: 0.3px;
+  }
+  
+  .logo-text {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header-body {
+    padding: 15px 25px;
+  }
+  
+  .desktop-nav {
+    gap: 6px;
+  }
+  
+  .desktop-nav a {
+    padding: 9px 15px;
+    font-size: 0.8rem;
+  }
+  
+  .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo-text {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-body {
+    padding: 15px 20px;
+  }
+  
+  .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo-text {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-body {
+    padding: 14px 18px;
+  }
+  
+  .logo-image {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .logo-text {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-body {
+    padding: 12px 15px;
+  }
+  
+  .logo-image {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .logo-text {
+    font-size: 1.6rem;
+  }
+  
+  .sidebar {
+    width: 280px;
+    padding: 70px 30px 30px;
+  }
+  
+  .sidebar-nav a {
+    font-size: 1rem;
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 375px) {
+  .header-body {
+    padding: 10px 12px;
+  }
+  
+  .logo {
+    gap: 10px;
+  }
+  
+  .logo-image {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logo-text {
+    font-size: 1rem;
+  }
+  
+  .sidebar {
+    width: 260px;
+  }
+}
