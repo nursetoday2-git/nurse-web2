@@ -9,17 +9,17 @@ const API_BASE_URL = "https://nurse-back.onrender.com";
 
 const aboutContent = {
   title: "About Us",
-  subtitle: "Holistic Concierge Nursing Professionals",
+  subtitle: "Holistic Concierge Nursing Associates",
   sections: [
   {
   heading: "Our Mission",
-  text: `At Holistic Concierge Nursing Professionals, we deliver exceptional, personalized nursing care in Boca Raton that empowers individuals to achieve optimal health in the comfort of their home. As a premier concierge nurse service in Boca Raton, West Palm Beach, and Delray Beach, we provide specialized care for women's health, compassionate support for veterans, and dignified guidance for seniors.
+  text: `At Holistic Concierge Nursing Associates, we deliver exceptional, personalized nursing care in Lancaster that empowers individuals to achieve optimal health in the comfort of their home. As a premier concierge nurse service in Lancaster, West Palm Beach, and Delray Beach, we provide specialized care for women's health, compassionate support for veterans, and dignified guidance for seniors.
 
 We treat every client as a whole person, honoring their unique values and goals. Our expert clinical care is grounded in respect, compassion, and integrity helping individuals live with confidence, independence, and improved quality of life at home.`
 },
     {
       heading: "Our Story",
-      text: `After more than 25 years as a registered nurse, Cheryl founded Holistic Concierge Nursing Professionals to give families personal, compassionate, and truly coordinated care. Her experience at world-class hospitals like Johns Hopkins and Hershey Medical Center showed her both the incredible resilience of patients and the challenges families face navigating a complex healthcare system. Her team manages every detail of care, from post-surgical recovery and dementia care to ongoing wellness, so you can focus on what matters most: each other.`
+      text: `After more than 25 years as a registered nurse, Cheryl founded Holistic Concierge Nursing Associates to give families personal, compassionate, and truly coordinated care. Her experience at world-class hospitals like Johns Hopkins and Hershey Medical Center showed her both the incredible resilience of patients and the challenges families face navigating a complex healthcare system. Her team manages every detail of care, from post-surgical recovery and dementia care to ongoing wellness, so you can focus on what matters most: each other.`
     },
     {
       heading: "Our Core Values",
@@ -32,16 +32,16 @@ We treat every client as a whole person, honoring their unique values and goals.
     },
     {
       heading: "Why Us?",
-      text: `At Holistic Concierge Nursing Professionals, leadership isn't just about experience, it's about vision. Cheryl brings not only decades of clinical mastery but also a belief in redefining what nursing care can be: proactive, holistic, accessible, and deeply personal. Cheryl leads a growing team of experts dedicated to closing the gaps in traditional healthcare and opening doors to more fulfilling, dignified, and client-centered healing experiences.`
+      text: `At Holistic Concierge Nursing Associates, leadership isn't just about experience, it's about vision. Cheryl brings not only decades of clinical mastery but also a belief in redefining what nursing care can be: proactive, holistic, accessible, and deeply personal. Cheryl leads a growing team of experts dedicated to closing the gaps in traditional healthcare and opening doors to more fulfilling, dignified, and client-centered healing experiences.`
     }
   ],
   founder: {
     name: "Cheryl Ruthman, MSN, RN",
     title: "Founder & CEO",
-    description: `I am the founder and owner of Holistic Concierge Nursing Professionals, a private concierge nursing company, offering a personal healthcare experience to clients on a national level.`,
+    description: `I am the founder and owner of Holistic Concierge Nursing Associates, a private concierge nursing company, offering a personal healthcare experience to clients on a national level.`,
     education: `I achieved my Registered Nursing Degree and went on to further my education with a Master's Degree in Nursing Leadership.`,
     passion: `My true passion is providing strong, quality-of-care services in the relaxed setting of a client's home, especially for dementia and aging adults, before and after surgery. This personalized care supports aging in place, impacts recovery time, wellness, and mental stability, all in the comfort of home. Through virtual coordination and nurse-on-demand access, clients stay healthier in their environment.`,
-    closing: `If you agree with the importance of personal, individualized health care, please don't hesitate to reach out to learn more about Holistic Concierge Nursing Professionals. You'll be glad you did!`
+    closing: `If you agree with the importance of personal, individualized health care, please don't hesitate to reach out to learn more about Holistic Concierge Nursing Associates. You'll be glad you did!`
   }
 }
 

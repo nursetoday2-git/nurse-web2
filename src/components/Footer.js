@@ -12,7 +12,7 @@ function Footer() {
       <div className="footer-content">
         {/* Company Info Section */}
         <div className="footer-section footer-about">
-          <h3 className="footer-logo">Holistic Concierge Nursing Professionals</h3>
+          <h3 className="footer-logo">Holistic Concierge Nursing Associates</h3>
           <p className="footer-tagline">Compassionate Care, Delivered with Excellence</p>
           <p className="footer-description">
             Providing personalized, professional nursing services with over 25 years of
@@ -75,7 +75,7 @@ function Footer() {
       <div className="footer-bottom">
         <div className="footer-bottom-content">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} Holistic Concierge Nursing Professionals. Developed and designed by Apollo Creations.
+            © {new Date().getFullYear()} Holistic Concierge Nursing Associates. Developed and designed by Apollo Creations.
           </p>
           <div className="footer-legal">
           </div>

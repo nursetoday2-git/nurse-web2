@@ -8,7 +8,7 @@ const backgroundVideo = `${process.env.PUBLIC_URL}/video1.mov`;
 const aboutContent = [
   { 
     title: "About Cheryl A. Ruthman, MSN, RN", 
-    text: `With over 25 years of nursing experience, Cheryl founded Holistic Concierge Nursing Professionals to bring compassionate, personalized care to families in Boca Raton, Delray Beach, and West Palm Beach with nationwide support available in nearly all 50 states.
+    text: `With over 25 years of nursing experience, Cheryl founded Holistic Concierge Nursing Associates to bring compassionate, personalized care to families in Lancaster, Delray Beach, and West Palm Beach with nationwide support available in nearly all 50 states.
 
 After serving in world-class hospitals, she recognized how seniors, veterans, and women often struggle with fragmented healthcare systems.
 
@@ -18,7 +18,7 @@ We make healthcare more coordinated and human, so families can focus on what mat
   },
   { 
     title: "Our Promise", 
-    text: "At Holistic Concierge Nursing Professionals, we lead with empathy, serve with excellence, and earn your trust through every interaction. You don't have to navigate healthcare alone."
+    text: "At Holistic Concierge Nursing Associates, we lead with empathy, serve with excellence, and earn your trust through every interaction. You don't have to navigate healthcare alone."
   }
 ];
 
@@ -157,7 +157,7 @@ function Home() {
   <div className="hero-overlay"></div>
   <div className="hero-content">
     <h1>Holistic Concierge Nursing</h1>
-    <p>Professionals</p>
+    <p>Associates</p>
   </div>
 </section>
 
