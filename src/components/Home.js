@@ -23,7 +23,6 @@ We make healthcare more coordinated and human, so families can focus on what mat
 ];
 
 
-const linklicense = 'https://newjersey.mylicense.com/verification/Search.aspx?facility=N'
 
 function Home() {
   const [services, setServices] = useState([]);
