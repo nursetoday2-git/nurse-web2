@@ -12,12 +12,18 @@ function Admin() {
   const [stars, setStars] = useState(0);
   const [testimonial, setTestimonial] = useState("");
   const [address, setAddress] = useState("");
+  const [text, setText] = useState("");
+  const [date, setDate] = useState("");
   const [message, setMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [items, setItems] = useState([]);
   const [stats, setStats] = useState({});
+  
+  // --- Edit Mode State ---
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingItemId, setEditingItemId] = useState(null);
 
-  const API_BASE_URL = "https://nurse-back.onrender.com"; // Change to your backend URL
+  const API_BASE_URL = "https://nurse-back.onrender.com";
 
   // --- Handlers for Input Changes ---
   const handleFileChange = (e) => {
@@ -26,7 +32,10 @@ function Admin() {
     setMessage("");
     if (selectedFiles.length > 0) {
       const totalSize = selectedFiles.reduce((sum, f) => sum + f.size, 0);
-      const fileType = selectedFiles[0].type.startsWith('video/') ? 'video' : 'image';
+      let fileType = 'file';
+      if (selectedFiles[0].type.startsWith('video/')) fileType = 'video';
+      else if (selectedFiles[0].type.startsWith('image/')) fileType = 'image';
+      else if (selectedFiles[0].type === 'application/pdf') fileType = 'PDF';
       setMessage(`Selected: ${selectedFiles.length} ${fileType}(s) (${(totalSize / 1024 / 1024).toFixed(2)} MB)`);
     }
   };
@@ -34,6 +43,10 @@ function Admin() {
   const handleSectionChange = (e) => {
     const newSection = e.target.value;
     setSection(newSection);
+    resetForm();
+  };
+
+  const resetForm = () => {
     setTitle("");
     setDescription("");
     setName("");
@@ -41,8 +54,12 @@ function Admin() {
     setStars(0);
     setTestimonial("");
     setAddress("");
+    setText("");
+    setDate("");
     setFiles([]);
     setMessage("");
+    setIsEditMode(false);
+    setEditingItemId(null);
     const fileInput = document.querySelector('input[type="file"]');
     if (fileInput) {
       fileInput.value = '';
@@ -57,10 +74,11 @@ function Admin() {
           name: "Customer Name",
           testimonial: "Testimonial Text",
           stars: "Star Rating (0-5)",
-          requiresImage: true,
+          requiresImage: false,
           requiresName: true,
           requiresTestimonial: true,
-          acceptVideo: false
+          acceptVideo: false,
+          imageOptional: true
         };
       case "home-video":
         return { 
@@ -74,10 +92,11 @@ function Admin() {
         return { 
           title: "Service Title",
           description: "Service Description",
-          requiresImage: true,
+          requiresImage: false,
           requiresTitle: true,
           requiresDescription: true,
-          acceptVideo: false
+          acceptVideo: false,
+          imageOptional: true
         };
       case "services":
         return { 
@@ -112,16 +131,64 @@ function Admin() {
           requiresLink: true,
           acceptVideo: false
         };
+      case "blog":
+        return { 
+          title: "Blog Post Title",
+          text: "Blog Post Content",
+          date: "Publication Date (Optional)",
+          requiresTitle: true,
+          requiresText: true,
+          requiresImage: false,
+          acceptVideo: false,
+          imageOptional: true
+        };
+      case "pdf":
+        return { 
+          title: "PDF Document Title",
+          description: "Document Description",
+          requiresTitle: true,
+          requiresDescription: true,
+          requiresPDF: true,
+          acceptPDF: true
+        };
       default:
         return { title: "Title" };
     }
   }, [section]);
 
-  // --- File Upload Logic ---
+  // --- Edit Item ---
+  const editItem = (item) => {
+    setIsEditMode(true);
+    setEditingItemId(item._id);
+    
+    // Populate form fields based on section
+    if (section === "testimonials") {
+      setName(item.name || "");
+      setTestimonial(item.testimonial || "");
+      setStars(item.stars || 0);
+    } else if (section === "address") {
+      setAddress(item.address || "");
+    } else if (section === "social") {
+      setName(item.name || "");
+      setLink(item.link || "");
+    } else if (section === "blog") {
+      setTitle(item.title || "");
+      setText(item.content || "");
+      setDate(item.postDate ? new Date(item.postDate).toISOString().split('T')[0] : "");
+    } else {
+      setTitle(item.title || "");
+      setDescription(item.description || "");
+    }
+    
+    setMessage(`✏️ Editing mode: Update the fields and click "Update" to save changes.`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // --- File Upload/Update Logic ---
   const handleUpload = async () => {
     const fieldInfo = getFieldInfo();
 
-    // Special handling for address (no file upload)
+    // Special handling for address
     if (section === "address") {
       if (!address.trim()) {
         setMessage("❌ Please enter an address");
@@ -129,12 +196,17 @@ function Admin() {
       }
 
       setIsUploading(true);
-      setMessage("⏳ Uploading...");
+      setMessage("⏳ Processing...");
 
       try {
-        const endpoint = `${API_BASE_URL}/address`;
+        const endpoint = isEditMode 
+          ? `${API_BASE_URL}/address/${editingItemId}`
+          : `${API_BASE_URL}/address`;
+        
+        const method = isEditMode ? "PUT" : "POST";
+        
         const res = await fetch(endpoint, {
-          method: "POST",
+          method: method,
           headers: {
             "Content-Type": "application/json",
           },
@@ -143,44 +215,59 @@ function Admin() {
         const data = await res.json();
 
         if (res.ok) {
-          setMessage(`✅ Address saved successfully!`);
-          setAddress("");
+          setMessage(`✅ Address ${isEditMode ? 'updated' : 'saved'} successfully!`);
+          resetForm();
           loadItems();
           loadStats();
         } else {
-          setMessage(`❌ Upload failed: ${data.error || "Unknown error"}`);
+          setMessage(`❌ Operation failed: ${data.error || "Unknown error"}`);
         }
       } catch (err) {
-        console.error("Upload error:", err);
-        setMessage("❌ Upload failed: Network error.");
+        console.error("Operation error:", err);
+        setMessage("❌ Operation failed: Network error.");
       } finally {
         setIsUploading(false);
       }
       return;
     }
 
-    // File validations for other sections
-    if (!files || files.length === 0) {
-      setMessage("❌ Please select a file first!");
-      return;
-    }
-
-    // Check file type based on section
-    if (fieldInfo.acceptVideo) {
-      const allVideos = files.every(f => f.type.startsWith('video/'));
-      if (!allVideos) {
-        setMessage("❌ Please select only video files!");
+    // Validation for edit mode - files are optional when editing
+    if (!isEditMode) {
+      if (!fieldInfo.imageOptional && !fieldInfo.requiresPDF && (!files || files.length === 0)) {
+        setMessage("❌ Please select a file first!");
         return;
       }
-    } else if (fieldInfo.requiresImage) {
-      const allImages = files.every(f => f.type.startsWith('image/'));
-      if (!allImages) {
-        setMessage("❌ Please select only image files!");
+
+      if (fieldInfo.requiresPDF && (!files || files.length === 0)) {
+        setMessage("❌ Please select a PDF file!");
         return;
       }
     }
 
-    // Validation based on section
+    // Check file type if files are provided
+    if (files && files.length > 0) {
+      if (fieldInfo.acceptVideo) {
+        const allVideos = files.every(f => f.type.startsWith('video/'));
+        if (!allVideos) {
+          setMessage("❌ Please select only video files!");
+          return;
+        }
+      } else if (fieldInfo.acceptPDF) {
+        const allPDFs = files.every(f => f.type === 'application/pdf');
+        if (!allPDFs) {
+          setMessage("❌ Please select only PDF files!");
+          return;
+        }
+      } else {
+        const allImages = files.every(f => f.type.startsWith('image/'));
+        if (!allImages && !fieldInfo.imageOptional) {
+          setMessage("❌ Please select only image files!");
+          return;
+        }
+      }
+    }
+
+    // Field validations
     if (fieldInfo.requiresTitle && !title.trim()) {
       setMessage(`❌ Please enter ${fieldInfo.title.toLowerCase()}`);
       return;
@@ -206,77 +293,93 @@ function Admin() {
       return;
     }
 
-    // Prepare Upload
+    if (fieldInfo.requiresText && !text.trim()) {
+      setMessage(`❌ Please enter ${fieldInfo.text.toLowerCase()}`);
+      return;
+    }
+
+    // Prepare Upload/Update
     setIsUploading(true);
-    setMessage("⏳ Uploading...");
+    setMessage(isEditMode ? "⏳ Updating..." : "⏳ Uploading...");
     
     const formData = new FormData();
     
     // Add files and data based on section
     if (section === "testimonials") {
-      formData.append("image", files[0]);
+      if (files && files.length > 0) {
+        formData.append("image", files[0]);
+      }
       formData.append("name", name.trim());
       formData.append("testimonial", testimonial.trim());
       formData.append("stars", stars);
     } else if (section === "home-video" || section === "about-video") {
-      formData.append("video", files[0]);
+      if (files && files.length > 0) {
+        formData.append("video", files[0]);
+      }
       formData.append("title", title.trim());
       if (description.trim()) {
         formData.append("description", description.trim());
       }
     } else if (section === "home-services") {
-      formData.append("icon", files[0]);
+      if (files && files.length > 0) {
+        formData.append("icon", files[0]);
+      }
       formData.append("title", title.trim());
       formData.append("description", description.trim());
     } else if (section === "services") {
-      formData.append("image", files[0]);
+      if (files && files.length > 0) {
+        formData.append("image", files[0]);
+      }
       formData.append("title", title.trim());
       formData.append("description", description.trim());
     } else if (section === "social") {
-      formData.append("icon", files[0]);
+      if (files && files.length > 0) {
+        formData.append("icon", files[0]);
+      }
       formData.append("name", name.trim());
       formData.append("link", link.trim());
+    } else if (section === "blog") {
+      if (files && files.length > 0) {
+        formData.append("image", files[0]);
+      }
+      formData.append("title", title.trim());
+      formData.append("content", text.trim());
+      if (date.trim()) {
+        formData.append("postDate", date.trim());
+      }
+    } else if (section === "pdf") {
+      if (files && files.length > 0) {
+        formData.append("pdf", files[0]);
+      }
+      formData.append("title", title.trim());
+      formData.append("description", description.trim());
     }
 
     // Make API Call
     try {
-      const endpoint = `${API_BASE_URL}/${section}/upload`;
+      const endpoint = isEditMode 
+        ? `${API_BASE_URL}/${section}/${editingItemId}`
+        : `${API_BASE_URL}/${section}/upload`;
+      
+      const method = isEditMode ? "PUT" : "POST";
+      
       const res = await fetch(endpoint, {
-        method: "POST",
+        method: method,
         body: formData,
       });
       const data = await res.json();
 
       if (res.ok) {
-        setMessage(`✅ Upload successful! Item saved in "${section}" section.`);
-        
-        // Add new item to list
-        const newItem = data.testimonial || data.video || data.service || data.socialLink;
-        if (newItem) {
-          setItems(prevItems => [newItem, ...prevItems]);
-        }
-
-        // Clear form fields
-        setFiles([]);
-        setTitle("");
-        setDescription("");
-        setName("");
-        setLink("");
-        setStars(0);
-        setTestimonial("");
-        const fileInput = document.querySelector('input[type="file"]');
-        if (fileInput) {
-          fileInput.value = '';
-        }
-
-        // Refresh stats
+        setMessage(`✅ ${isEditMode ? 'Update' : 'Upload'} successful!`);
+        resetForm();
+        loadItems();
         loadStats();
       } else {
-        setMessage(`❌ Upload failed: ${data.error || "Unknown error"}`);
+        setMessage(`❌ Operation failed: ${data.error || "Unknown error"}`);
       }
     } catch (err) {
-      console.error("Upload error:", err);
-      setMessage("❌ Upload failed: Network error. Make sure the server is running.");
+      console.error("Operation error:", err);
+      setMessage("❌ Operation failed: Network error.");
     } finally {
       setIsUploading(false);
     }
@@ -295,8 +398,7 @@ function Admin() {
       }
       const data = await res.json();
       
-      // Extract items based on section
-      const itemsArray = data.testimonials || data.videos || data.services || data.socialLinks || data.addresses || [];
+      const itemsArray = data.testimonials || data.videos || data.services || data.socialLinks || data.addresses || data.blogPosts || data.pdfs || [];
       setItems(itemsArray);
     } catch (err) {
       console.error("Error loading items:", err);
@@ -307,7 +409,7 @@ function Admin() {
   // --- Fetching Upload Statistics ---
   const loadStats = useCallback(async () => {
     try {
-      const sections = ["testimonials", "home-video", "home-services", "services", "about-video", "address", "social"];
+      const sections = ["testimonials", "home-video", "home-services", "services", "about-video", "address", "social", "blog", "pdf"];
       const newStats = {};
       
       for (const sec of sections) {
@@ -315,7 +417,7 @@ function Admin() {
           const res = await fetch(`${API_BASE_URL}/${sec}`);
           if (res.ok) {
             const data = await res.json();
-            const itemsArray = data.testimonials || data.videos || data.services || data.socialLinks || data.addresses || [];
+            const itemsArray = data.testimonials || data.videos || data.services || data.socialLinks || data.addresses || data.blogPosts || data.pdfs || [];
             newStats[sec] = itemsArray.length;
           }
         } catch (err) {
@@ -342,9 +444,7 @@ function Admin() {
 
       if (res.ok) {
         setMessage(`✅ "${displayName}" deleted successfully!`);
-        setItems(prevItems =>
-          prevItems.filter(item => item._id !== itemId)
-        );
+        setItems(prevItems => prevItems.filter(item => item._id !== itemId));
         loadStats();
       } else {
         setMessage(`❌ Delete failed: ${data.error || "Unknown error"}`);
@@ -364,10 +464,8 @@ function Admin() {
     loadStats();
   }, [loadStats]);
 
-  // Get field info
   const fieldInfo = getFieldInfo();
 
-  // Section names mapping
   const sectionNames = {
     "testimonials": "Testimonials",
     "home-video": "Home Page Video",
@@ -375,7 +473,9 @@ function Admin() {
     "services": "Services Page",
     "about-video": "About Us Video",
     "address": "Company Address",
-    "social": "Social Media Links"
+    "social": "Social Media Links",
+    "blog": "Blog Posts",
+    "pdf": "PDF Documents"
   };
 
   // --- JSX Rendering ---
@@ -399,16 +499,46 @@ function Admin() {
         )}
       </div>
 
-      {/* Upload Form */}
+      {/* Upload/Edit Form */}
       <div className="upload-form">
-        <h3 className="form-title">📤 Add New Item</h3>
+        <h3 className="form-title">
+          {isEditMode ? '✏️ Edit Item' : '📤 Add New Item'}
+        </h3>
+        
+        {isEditMode && (
+          <div style={{ 
+            padding: '12px', 
+            background: '#fff3cd', 
+            border: '1px solid #ffc107', 
+            borderRadius: '8px', 
+            marginBottom: '20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <span>✏️ <strong>Edit Mode:</strong> Update the fields below</span>
+            <button 
+              onClick={resetForm}
+              style={{
+                padding: '6px 12px',
+                background: '#6c757d',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              ✖️ Cancel Edit
+            </button>
+          </div>
+        )}
         
         <div className="form-group">
           <label className="form-label">Section:</label>
           <select
             value={section}
             onChange={handleSectionChange}
-            disabled={isUploading}
+            disabled={isUploading || isEditMode}
             className="form-select"
           >
             <option value="testimonials">💬 Testimonials</option>
@@ -418,6 +548,8 @@ function Admin() {
             <option value="about-video">📹 About Us Video</option>
             <option value="address">📍 Company Address</option>
             <option value="social">🔗 Social Media Links</option>
+            <option value="blog">📝 Blog Posts</option>
+            <option value="pdf">📄 PDF Documents</option>
           </select>
         </div>
 
@@ -463,8 +595,8 @@ function Admin() {
           </>
         )}
 
-        {/* Video/Service Title Fields */}
-        {(section === "home-video" || section === "home-services" || section === "services" || section === "about-video") && (
+        {/* Title Fields */}
+        {(section === "home-video" || section === "home-services" || section === "services" || section === "about-video" || section === "blog" || section === "pdf") && (
           <div className="form-group">
             <label className="form-label">{fieldInfo.title}:</label>
             <input
@@ -480,7 +612,7 @@ function Admin() {
         )}
 
         {/* Description Fields */}
-        {(section === "home-video" || section === "home-services" || section === "services" || section === "about-video") && (
+        {(section === "home-video" || section === "home-services" || section === "services" || section === "about-video" || section === "pdf") && (
           <div className="form-group">
             <label className="form-label">{fieldInfo.description}:</label>
             <textarea
@@ -492,6 +624,37 @@ function Admin() {
               maxLength={section === "services" ? 5000 : 2000}
             />
           </div>
+        )}
+
+        {/* Blog Post Fields */}
+        {section === "blog" && (
+          <>
+            <div className="form-group">
+              <label className="form-label">{fieldInfo.text}:</label>
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                disabled={isUploading}
+                className="form-textarea"
+                placeholder="Enter blog post content"
+                maxLength={50000}
+                style={{ minHeight: '200px' }}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">{fieldInfo.date}:</label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                disabled={isUploading}
+                className="form-input"
+              />
+              <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>
+                💡 Leave empty to use current date
+              </small>
+            </div>
+          </>
         )}
 
         {/* Address Field */}
@@ -521,7 +684,7 @@ function Admin() {
                 onChange={(e) => setName(e.target.value)}
                 disabled={isUploading}
                 className="form-input"
-                placeholder="e.g., Facebook, Instagram, LinkedIn"
+                placeholder="e.g., Facebook, Instagram"
                 maxLength={100}
               />
             </div>
@@ -540,28 +703,34 @@ function Admin() {
           </>
         )}
 
-        {/* File Upload (not for address) */}
+        {/* File Upload */}
         {section !== "address" && (
           <div className="form-group">
             <label className="form-label">
-              Select {fieldInfo.acceptVideo ? 'Video' : 'Image'}:
+              Select {fieldInfo.acceptVideo ? 'Video' : fieldInfo.acceptPDF ? 'PDF' : 'Image'}
+              {(fieldInfo.imageOptional || isEditMode) && ' (Optional)'}:
             </label>
             <input
               type="file"
-              accept={fieldInfo.acceptVideo ? "video/*" : "image/*"}
+              accept={fieldInfo.acceptVideo ? "video/*" : fieldInfo.acceptPDF ? "application/pdf" : "image/*"}
               onChange={handleFileChange}
               disabled={isUploading}
               className="form-file-input"
             />
+            {isEditMode && (
+              <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>
+                💡 Leave empty to keep existing file
+              </small>
+            )}
           </div>
         )}
 
         <button
           onClick={handleUpload}
-          disabled={isUploading || (section !== "address" && files.length === 0)}
-          className={`upload-button ${isUploading || (section !== "address" && files.length === 0) ? 'disabled' : ''}`}
+          disabled={isUploading}
+          className={`upload-button ${isUploading ? 'disabled' : ''}`}
         >
-          {isUploading ? '⏳ Uploading...' : '📤 Upload'}
+          {isUploading ? '⏳ Processing...' : isEditMode ? '✅ Update' : '📤 Upload'}
         </button>
 
         {message && (
@@ -571,7 +740,7 @@ function Admin() {
         )}
       </div>
 
-      {/* Items List Display */}
+      {/* Items List */}
       <div className="items-section">
         <h3 className="items-title">
           🖼️ {sectionNames[section]} Items ({items.length})
@@ -581,9 +750,10 @@ function Admin() {
           <div className="items-grid">
             {items.map((item) => {
               const displayTitle = item.title || item.name || item.address || "Untitled";
-              const displayDescription = item.description || item.testimonial || '';
-              const mediaUrl = item.imageUrl || item.videoUrl || item.iconUrl;
+              const displayDescription = item.description || item.testimonial || item.text || '';
+              const mediaUrl = item.imageUrl || item.videoUrl || item.iconUrl || item.pdfUrl;
               const isVideo = item.videoUrl || item.videoPublicId;
+              const isPDF = item.pdfUrl || item.pdfPublicId;
               
               return (
                 <div key={item._id} className="item-card">
@@ -596,6 +766,14 @@ function Admin() {
                           className="item-image"
                           style={{ maxHeight: '200px' }}
                         />
+                      ) : isPDF ? (
+                        <div style={{ padding: '20px', background: '#f0f0f0', borderRadius: '8px', textAlign: 'center' }}>
+                          <span style={{ fontSize: '48px' }}>📄</span>
+                          <p style={{ margin: '10px 0 0 0', fontSize: '14px', color: '#666' }}>
+                            PDF Document
+                            {item.fileSize && ` (${(item.fileSize / 1024 / 1024).toFixed(2)} MB)`}
+                          </p>
+                        </div>
                       ) : (
                         <img
                           src={mediaUrl}
@@ -603,7 +781,6 @@ function Admin() {
                           className="item-image"
                           onError={(e) => {
                             e.target.style.display = 'none';
-                            console.warn(`Failed to load image: ${mediaUrl}`);
                           }}
                         />
                       )}
@@ -614,8 +791,12 @@ function Admin() {
                     <h4 className="item-title">{displayTitle}</h4>
                     
                     {item.stars > 0 && (
+                      <p className="item-image-count">⭐ {item.stars} / 5 stars</p>
+                    )}
+                    
+                    {item.postDate && (
                       <p className="item-image-count">
-                        ⭐ {item.stars} / 5 stars
+                        📅 {new Date(item.postDate).toLocaleDateString()}
                       </p>
                     )}
                     
@@ -634,12 +815,50 @@ function Admin() {
                       </p>
                     )}
 
-                    <button
-                      onClick={() => deleteItem(item._id, displayTitle)}
-                      className="delete-button"
-                    >
-                      🗑️ Delete
-                    </button>
+                    {isPDF && item.pdfUrl && (
+                      <a 
+                        href={item.pdfUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ 
+                          display: 'inline-block', 
+                          marginTop: '10px', 
+                          padding: '8px 16px', 
+                          background: '#007bff', 
+                          color: 'white', 
+                          borderRadius: '4px', 
+                          textDecoration: 'none',
+                          fontSize: '14px'
+                        }}
+                      >
+                        📥 Download PDF
+                      </a>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                      <button
+                        onClick={() => editItem(item)}
+                        style={{
+                          flex: 1,
+                          padding: '0px 10px',
+                          background: '#28a745',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontSize: '16px'
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteItem(item._id, displayTitle)}
+                        className="delete-button"
+                        style={{ flex: 1 }}
+                      >
+                        🗑️ Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               );

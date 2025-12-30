@@ -1,19 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../styles/Home.css";
 import Footer from './Footer';
 
-const backgroundVideo = `${process.env.PUBLIC_URL}/video.mov`;
+
+const backgroundVideo = `${process.env.PUBLIC_URL}/video1.mov`;
 
 const aboutContent = [
-  {
-    title: "About Cheryl Ruthman, RN",
-    text: "After more than 20 years as a registered nurse, Cheryl founded Holistic Concierge Nursing Professionals to give families personal, compassionate, and truly coordinated care. Her experience at world-class hospitals like Johns Hopkins and Hershey Medical Center showed her both the incredible resilience of patients and the challenges families face navigating a complex healthcare system. Her team manages every detail of care—from post-surgical recovery to ongoing wellness—so you can focus on what matters most: each other."
+  { 
+    title: "About Cheryl A. Ruthman, MSN, RN", 
+    text: `With over 25 years of nursing experience, Cheryl founded Holistic Concierge Nursing Professionals to bring compassionate, personalized care to families in Boca Raton, Delray Beach, and West Palm Beach with nationwide support available in nearly all 50 states.
+
+After serving in world-class hospitals, she recognized how seniors, veterans, and women often struggle with fragmented healthcare systems.
+
+Our concierge nursing team provides whole-person care, from post-surgical recovery and dementia support to wellness services with advanced patient monitoring.
+
+We make healthcare more coordinated and human, so families can focus on what matters most: each other.`
   },
-  {
-    title: "Our Promise",
+  { 
+    title: "Our Promise", 
     text: "At Holistic Concierge Nursing Professionals, we lead with empathy, serve with excellence, and earn your trust through every interaction. You don't have to navigate healthcare alone."
   }
 ];
+
+
+const linklicense = 'https://newjersey.mylicense.com/verification/Search.aspx?facility=N'
 
 function Home() {
   const [services, setServices] = useState([]);
@@ -25,13 +35,30 @@ function Home() {
   const [servicesError, setServicesError] = useState(null);
   const [testimonialsError, setTestimonialsError] = useState(null);
   const [videoError, setVideoError] = useState(null);
-  const carouselRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     fetchServices();
     fetchTestimonials();
     fetchHomeVideo();
-  }, []);
+
+    // Handle window resize for responsive testimonials
+    const handleResize = () => {
+      const wasMobile = isMobile;
+      const nowMobile = window.innerWidth <= 768;
+      setIsMobile(nowMobile);
+      
+      // Reset to first page if switching between mobile/desktop
+      if (wasMobile !== nowMobile) {
+        setCurrentPage(0);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobile]);
 
   const fetchServices = async () => {
     try {
@@ -80,36 +107,73 @@ function Home() {
     }
   };
 
-  const scrollCarousel = (direction) => {
-    if (carouselRef.current) {
-      const containerWidth = carouselRef.current.offsetWidth;
-      const scrollAmount = containerWidth;
-      
-      if (direction === 'left') {
-        carouselRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-      } else {
-        carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      }
-    }
+  // Pagination logic for testimonials - 2 on desktop, 1 on mobile
+  const testimonialsPerPage = isMobile ? 1 : 2;
+  const totalPages = Math.ceil(testimonials.length / testimonialsPerPage);
+  
+  const getCurrentTestimonials = () => {
+    const startIndex = currentPage * testimonialsPerPage;
+    const endIndex = startIndex + testimonialsPerPage;
+    return testimonials.slice(startIndex, endIndex);
+  };
+
+  const handlePrevPage = () => {
+    if (isTransitioning) return; // Prevent multiple clicks during transition
+    
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+      setIsTransitioning(false);
+    }, 300); // Half of the CSS transition time
+  };
+
+  const handleNextPage = () => {
+    if (isTransitioning) return; // Prevent multiple clicks during transition
+    
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+      setIsTransitioning(false);
+    }, 300); // Half of the CSS transition time
   };
 
   return (
     <div className="home-body">
       {/* HERO SECTION */}
-      <section className="hero-section">
-        <video className="hero-video" autoPlay loop muted playsInline>
-          <source src={backgroundVideo} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <h1>Holistic Concierge Nursing</h1>
-          <p>Professionals</p>
-        </div>
-      </section>
+     <section className="hero-section">
+ <div className="license-badge">
+  <a 
+    href="https://www.pals.pa.gov/#!/page/search" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    style={{ textDecoration: 'none', color: 'inherit' }}
+  >
+    <span>Multi State Licensure: RN558107</span>
+  </a>
+</div>
+  <video className="hero-video" autoPlay loop muted playsInline>
+    <source src={backgroundVideo} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="hero-overlay"></div>
+  <div className="hero-content">
+    <h1>Holistic Concierge Nursing</h1>
+    <p>Professionals</p>
+  </div>
+</section>
 
       {/* ABOUT US SECTION */}
       <section className="about-section">
+         <div className="license-badge2">
+  <a 
+    href="https://www.pals.pa.gov/#!/page/search" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    style={{ textDecoration: 'none', color: 'inherit' }}
+  >
+    <span>Multi State Licensure: RN558107</span>
+  </a>
+</div>
         <h2>About Us</h2>
         <div className="about-grid">
           {aboutContent.map((item, index) => (
@@ -120,7 +184,9 @@ function Home() {
           ))}
         </div>
         <div className="about-cta">
-          <button className="cta-button">Request a Confidential Call</button>
+          <a href="tel:+15615951617" className="cta-button" style={{ textDecoration: 'none' }}>
+            Request a Confidential Call
+          </a>
         </div>
       </section>
 
@@ -136,15 +202,26 @@ function Home() {
           <div className="services-grid">
             {services.map((service) => (
               <div key={service._id} className="service-card">
-                <div className="service-icon">
-                  <img src={service.iconUrl} alt={service.title} />
-                </div>
+                {service.iconUrl && (
+                  <div className="service-icon">
+                    <img src={service.iconUrl} alt={service.title} />
+                  </div>
+                )}
                 <h3>{service.title}</h3>
                 <p>{service.description}</p>
               </div>
             ))}
           </div>
         )}
+        
+        {/* Compliance Note */}
+        <div className="services-compliance-note">
+          <p>
+            We use HIPAA-compliant remote monitoring equipment, including FDA-approved 
+            devices such as the FreeStyle Libre 3 continuous glucose monitor and 
+            telehealth-enabled vital sign tracking tools.
+          </p>
+        </div>
       </section>
 
       {/* HOME VIDEO SECTION */}
@@ -158,9 +235,9 @@ function Home() {
               )}
             </div>
             <div className="video-container">
-              <video 
-                className="feature-video" 
-                controls 
+              <video
+                className="feature-video"
+                controls
                 poster={homeVideo.thumbnailUrl}
               >
                 <source src={homeVideo.videoUrl} type="video/mp4" />
@@ -171,7 +248,9 @@ function Home() {
         </section>
       )}
 
-      {/* TESTIMONIALS SECTION - CAROUSEL */}
+     
+
+      {/* TESTIMONIALS SECTION - 2 on Desktop, 1 on Mobile */}
       <section className="testimonials-section">
         <h2>What Our Clients Say</h2>
         {testimonialsLoading && (
@@ -191,24 +270,22 @@ function Home() {
         )}
         {!testimonialsLoading && !testimonialsError && testimonials.length > 0 && (
           <div className="carousel-container">
-            <button 
-              className="carousel-nav prev" 
-              onClick={() => scrollCarousel('left')}
+            <button
+              className="carousel-nav prev"
+              onClick={handlePrevPage}
               aria-label="Previous testimonials"
+              disabled={isTransitioning}
             >
               ‹
             </button>
-            
-            <div className="carousel-wrapper" ref={carouselRef}>
-              {testimonials.map((testimonial) => (
+
+            <div className={`carousel-wrapper ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
+              {getCurrentTestimonials().map((testimonial) => (
                 <div key={testimonial._id} className="testimonial-card">
-                  <div className="testimonial-image">
-                    <img src={testimonial.imageUrl} alt={testimonial.name} />
-                  </div>
                   <div className="testimonial-stars">
                     {[...Array(5)].map((_, index) => (
-                      <span 
-                        key={index} 
+                      <span
+                        key={index}
                         className={index < testimonial.stars ? 'star filled' : 'star'}
                       >
                         ★
@@ -220,18 +297,19 @@ function Home() {
                 </div>
               ))}
             </div>
-            
-            <button 
-              className="carousel-nav next" 
-              onClick={() => scrollCarousel('right')}
+
+            <button
+              className="carousel-nav next"
+              onClick={handleNextPage}
               aria-label="Next testimonials"
+              disabled={isTransitioning}
             >
               ›
             </button>
           </div>
         )}
       </section>
-      
+
       <Footer />
     </div>
   );

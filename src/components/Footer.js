@@ -1,7 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Footer.css';
 
 function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="footer-container">
       <div className="footer-content">
@@ -10,7 +15,7 @@ function Footer() {
           <h3 className="footer-logo">Holistic Concierge Nursing Professionals</h3>
           <p className="footer-tagline">Compassionate Care, Delivered with Excellence</p>
           <p className="footer-description">
-            Providing personalized, professional nursing services with over 20 years of 
+            Providing personalized, professional nursing services with over 25 years of
             experience in coordinated healthcare management.
           </p>
         </div>
@@ -19,11 +24,11 @@ function Footer() {
         <div className="footer-section footer-links">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/resources">Resource Page</a></li>
-            <li><a href="/contact">Contact Us</a></li>
+            <li><Link to="/" onClick={scrollToTop}>Home</Link></li>
+            <li><Link to="/about" onClick={scrollToTop}>About Us</Link></li>
+            <li><Link to="/services" onClick={scrollToTop}>Services</Link></li>
+            <li><Link to="/resources" onClick={scrollToTop}>Resource Page</Link></li>
+            <li><Link to="/contact" onClick={scrollToTop}>Contact Us</Link></li>
           </ul>
         </div>
 
@@ -31,10 +36,15 @@ function Footer() {
         <div className="footer-section footer-services">
           <h4>Our Services</h4>
           <ul>
-            <li><a href="/services#end-of-life">End of Life Roadmapping</a></li>
-            <li><a href="/services#health-prevention">Health Prevention</a></li>
-            <li><a href="/services#vitale-care">Vitale Care - RPM</a></li>
-            <li><a href="/services#dementia-care">Dementia Care</a></li>
+            <li><Link to="/services#end-of-life" onClick={scrollToTop}>Hope & Healing Program</Link></li>
+            <li><Link to="/services#health-prevention" onClick={scrollToTop}>Health Prevention</Link></li>
+            <li><Link to="/services#vitale-care" onClick={scrollToTop}>⁠Journey of Aging</Link></li>
+            <li><Link to="/services#vitale-care" onClick={scrollToTop}>RPM - Remote Patient Monitoring</Link></li>
+            <li><Link to="/services#dementia-care" onClick={scrollToTop}>Dementia Care</Link></li>
+            <li><Link to="/services#dementia-care" onClick={scrollToTop}>Medical Travel Nurse Coordination</Link></li>
+            <li><Link to="/services#dementia-care" onClick={scrollToTop}>End of Life Roadmapping</Link></li>
+            <li><Link to="/services#dementia-care" onClick={scrollToTop}>Nurse Coaching</Link></li>
+            
           </ul>
         </div>
 
@@ -44,19 +54,19 @@ function Footer() {
           <ul className="contact-info">
             <li>
               <span className="contact-icon">📞</span>
-              <a href="tel:+1234567890">(123) 456-7890</a>
+              <a href="tel:+15615951617">+1 (561) 595-1617</a>
             </li>
             <li>
               <span className="contact-icon">✉</span>
-              <a href="mailto:info@hcnprofessionals.com">info@hcnprofessionals.com</a>
+              <a href="mailto:cheryl@nursetoday.info">cheryl@nursetoday.info</a>
             </li>
             <li>
               <span className="contact-icon">📍</span>
-              <span>Serving [Your Service Area]</span>
+              <span>Boca Raton</span>
             </li>
           </ul>
           <div className="footer-cta">
-            <a href="/contact" className="footer-button">Request a Consultation</a>
+            <Link to="/contact" className="footer-button" onClick={scrollToTop}>Request a Consultation</Link>
           </div>
         </div>
       </div>
@@ -65,14 +75,9 @@ function Footer() {
       <div className="footer-bottom">
         <div className="footer-bottom-content">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} Holistic Concierge Nursing Professionals. All rights reserved.
+            © {new Date().getFullYear()} Holistic Concierge Nursing Professionals. Developed and designed by Apollo Creations.
           </p>
           <div className="footer-legal">
-            <a href="/privacy-policy">Privacy Policy</a>
-            <span className="separator">|</span>
-            <a href="/terms-of-service">Terms of Service</a>
-            <span className="separator">|</span>
-            <a href="/hipaa-compliance">HIPAA Compliance</a>
           </div>
         </div>
       </div>

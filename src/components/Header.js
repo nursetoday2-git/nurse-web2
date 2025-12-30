@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 
-
-
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
@@ -31,14 +29,23 @@ function Header() {
       <header className="header-body">
         <div className="header-container">
           <div className="logo">
-            <span className="logo-text">Call A Nurse Today</span>
+            <span className="logo-text">Nurse in boca</span>
           </div>
           <nav className="desktop-nav">
             <Link to="/" onClick={scrollToTop}>Home</Link>
             <Link to="/about" onClick={scrollToTop}>About Us</Link>
             <Link to="/services" onClick={scrollToTop}>Services</Link>
-            <Link to="/testimonials" onClick={scrollToTop}>Resource Page</Link>
+            <Link to="/blog" onClick={scrollToTop}>Blog</Link> {/* Add this */}
+            <Link to="/resources" onClick={scrollToTop}>Resource Page</Link>
             <Link to="/contact" onClick={scrollToTop}>Contact Us</Link>
+            <a 
+              href="https://docs.google.com/forms/d/1xU2q8VmYtgmlWc7C89t4gOZ4odlqHvoF9Jvyf3eO974/viewform?pli=1&pli=1&edit_requested=true" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className='schedule-call-btn'
+            >
+              Schedule A Call
+            </a>
           </nav>
           <button className="hamburger" onClick={toggleSidebar} aria-label="Menu">
             <span></span>
@@ -54,11 +61,21 @@ function Header() {
           ×
         </button>
         <nav className="sidebar-nav">
-            <Link to="/" onClick={scrollToTop}>Home</Link>
-            <Link to="/about" onClick={scrollToTop}>About Us</Link>
-            <Link to="/services" onClick={scrollToTop}>Services</Link>
-            <Link to="/testimonials" onClick={scrollToTop}>Resource Page</Link>
-            <Link to="/contact" onClick={scrollToTop}>Contact Us</Link>
+          <Link to="/" onClick={closeSidebar}>Home</Link>
+          <Link to="/about" onClick={closeSidebar}>About Us</Link>
+          <Link to="/services" onClick={closeSidebar}>Services</Link>
+          <Link to="/blog" onClick={closeSidebar}>Blog</Link> {/* Add this */}
+          <Link to="/resources" onClick={closeSidebar}>Resource Page</Link>
+          <Link to="/contact" onClick={closeSidebar}>Contact Us</Link>
+          <a 
+            href="https://docs.google.com/forms/d/1xU2q8VmYtgmlWc7C89t4gOZ4odlqHvoF9Jvyf3eO974/viewform?pli=1&pli=1&edit_requested=true" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onClick={closeSidebar}
+            className='schedule-call-btn'
+          >
+            Schedule A Call
+          </a>
         </nav>
       </div>
 

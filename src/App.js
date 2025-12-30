@@ -4,6 +4,13 @@ import Admin from './components/Admin';
 import Header from './components/Header';
 import Home from './components/Home';
 import Footer from './components/Footer';
+import About from './components/About';
+import Services from './components/Services';
+import Contact from './components/Contact';
+import ServicePage from './components/ServicePage';
+import ResourcePage from './components/ResourcePage';
+import BlogPage from './components/BlogPage';
+import Blog from './components/Blog'; // Add this import
 
 function App() {
   return (
@@ -13,6 +20,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/service/:id" element={<ServicePage />} />
+          <Route path="/resources" element={<ResourcePage />} />
+          <Route path="/blog" element={<Blog />} /> {/* Add this route */}
+          <Route path="/blog/:id" element={<BlogPage />} />
         </Routes>
       </div>
     </Router>

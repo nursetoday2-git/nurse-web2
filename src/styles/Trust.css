@@ -1,0 +1,262 @@
+/* Trust.css */
+
+.trust-section {
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background-color: #fff;
+  padding-top: 100px;
+}
+
+.trust-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* --- 1. CREDENTIALS (No Boxes) --- */
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-header h2 {
+  font-family: "proxima-nova", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: #49796B; /* Sage Green */
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+}
+
+.header-line {
+  width: 60px;
+  height: 2px;
+  background-color: #49796B;
+  margin: 0 auto;
+}
+
+.credentials-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 100px;
+}
+
+.credential-item {
+  flex: 1;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.minimal-icon {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #49796B;
+  display: block;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.credential-item h3 {
+  font-family: "proxima-nova", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  letter-spacing: 1px;
+}
+
+.credential-item p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #666;
+  font-weight: 400;
+}
+
+/* The Vertical Lines between items */
+.vertical-divider {
+  width: 1px;
+  height: 150px; /* Height of the line */
+  background: linear-gradient(to bottom, transparent, rgba(73, 121, 107, 0.3), transparent);
+  margin-top: 10px;
+}
+
+/* --- 2. TESTIMONIALS (Magazine Style) --- */
+.testimonial-banner {
+  background-color: #f8fafb; /* Very subtle grey/blue tint */
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
+}
+
+/* Decorative top/bottom lines */
+.testimonial-banner::before,
+.testimonial-banner::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background-color: #49796B;
+  opacity: 0.4;
+}
+.testimonial-banner::before { top: 0; }
+.testimonial-banner::after { bottom: 0; }
+
+.editorial-quote {
+  font-family: "proxima-nova", serif; /* Or a serif font if available */
+  font-size: 2.2rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.4;
+  color: #2c3e50;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.quote-author {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #49796B;
+}
+
+.author-role {
+  font-weight: 400;
+  color: #888;
+  text-transform: none;
+}
+
+/* --- 3. CONTACT (Minimalist Split) --- */
+.contact-minimal-section {
+  padding: 120px 0;
+  background: #fff;
+}
+
+.contact-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+.contact-text {
+  flex: 1;
+}
+
+.contact-text h3 {
+  font-family: "proxima-nova", sans-serif;
+  font-size: 3rem;
+  color: #49796B;
+  font-weight: 300;
+  margin: 0 0 20px 0;
+}
+
+.contact-text p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.big-phone-link {
+  font-family: "proxima-nova", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.big-phone-link:hover {
+  color: #49796B;
+  border-bottom: 2px solid #49796B;
+}
+
+/* Form Layout */
+.contact-form-minimal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.input-group {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Minimal Inputs (Underline Only) */
+.contact-form-minimal input,
+.contact-form-minimal select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc; /* Just a line */
+  padding: 15px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #333;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.contact-form-minimal input::placeholder {
+  color: #999;
+  font-weight: 300;
+}
+
+.contact-form-minimal input:focus,
+.contact-form-minimal select:focus {
+  border-bottom: 1px solid #49796B;
+}
+
+.contact-form-minimal button {
+  white-space: nowrap;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  padding: 0 40px;
+  font-family: "proxima-nova", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-form-minimal button:hover {
+  background: #49796B;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .credentials-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  .vertical-divider {
+    width: 80%;
+    height: 1px; /* Becomes horizontal line on mobile */
+    background: linear-gradient(to right, transparent, rgba(73, 121, 107, 0.3), transparent);
+    margin: 0;
+  }
+
+  .contact-split {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 60px;
+  }
+
+  .editorial-quote {
+    font-size: 1.6rem;
+  }
+}

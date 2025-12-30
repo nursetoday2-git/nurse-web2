@@ -1,43 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#696FC7" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <!-- Primary Meta Tags -->
+  <title>Nurse in Boca Raton | Boca Nursing Services & Concierge In-Home Care</title>
+  <meta name="title" content="Nurse in Boca Raton | Boca Nursing Services & Concierge In-Home Care" />
+  <meta name="description" content="Top-rated Boca nursing services and private in-home care. We provide post-operative care, dementia support, aging-in-place programs, personalized care management, and concierge nursing in Boca Raton, FL and Lancaster, PA. Led by Cheryl Ruthman, MSN, RN." />
+<!-- SEO Keywords (Boca + Lancaster + Competitor Keyword Set) -->
+<meta name="keywords" content="nurse in Boca, Boca nursing services, Boca home care services, Boca home care Boca Raton FL, Boca home health, Boca home health care, home nurse Boca Raton, Boca nursing services Boca Raton FL, personalized care management Boca Raton, concierge nurse Boca, post-op nurse Boca Raton, private duty nurse Boca, Boca in-home nursing, dementia care Boca Raton, remote patient monitoring Boca, Boca home care, Boca home care services Boca Raton, ready care home health, readycare, ready care, home care aventura, home care services aventura, home care aventura fl" />
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <meta name="author" content="Holistic Concierge Nursing Professionals" />
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.yourwebsite.com/" />
+  <meta property="og:title" content="Nurse in Boca Raton | Concierge Nursing & In-Home Care" />
+  <meta property="og:description" content="Boca nursing services including post-op care, dementia support, aging-in-place, and personalized care management. Compassionate concierge nursing led by Cheryl Ruthman, MSN, RN." />
+  <meta property="og:image" content="https://www.yourwebsite.com/og-image.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://www.yourwebsite.com/" />
+  <meta property="twitter:title" content="Nurse in Boca Raton | Concierge Nursing & In-Home Care" />
+  <meta property="twitter:description" content="Private in-home nursing care in Boca Raton. Post-op care, dementia care, aging support, and remote patient monitoring." />
+  <meta property="twitter:image" content="https://www.yourwebsite.com/twitter-image.jpg" />
+
+  <!-- Additional SEO Tags -->
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="distribution" content="global" />
+
+  <!-- Contact Information -->
+  <meta property="og:phone_number" content="+1-561-595-1617" />
+  <meta property="og:email" content="cheryl@nursetoday.info" />
+  <meta property="og:locality" content="Boca Raton" />
+  <meta property="og:region" content="FL" />
+
+  <!-- Schema.org with Boca Keywords Added -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Holistic Concierge Nursing Professionals",
+    "description": "Boca nursing services and in-home care including post-operative recovery, dementia care, aging-in-place programs, personalized care management, and concierge nursing. Led by Cheryl Ruthman, MSN, RN.",
+    "url": "https://www.yourwebsite.com/",
+    "logo": "https://www.yourwebsite.com/logo.png",
+    "image": "https://www.yourwebsite.com/og-image.jpg",
+    "founder": {
+      "@type": "Person",
+      "name": "Cheryl A. Ruthman",
+      "jobTitle": "MSN, RN"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Boca Raton",
+      "addressRegion": "FL",
+      "postalCode": "33432",
+      "addressCountry": "US"
+    },
+    "areaServed": [
+      "Boca Raton, FL",
+      "Delray Beach, FL",
+      "Palm Beach County, FL",
+      "Lancaster, PA",
+      "Hershey, PA",
+      "Manheim, PA"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-561-595-1617",
+      "contactType": "Customer Service"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Boca Nursing Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Boca Nursing Services",
+            "description": "Private Boca nursing services including home care, care management, and skilled nursing visits."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Post-Operative Care Boca Raton",
+            "description": "In-home post-op nurse in Boca Raton specializing in plastic surgery recovery and surgical aftercare."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Dementia Care Boca Raton",
+            "description": "Personalized dementia support, safety planning, and care coordination for Boca Raton families."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Home Nurse Boca Raton",
+            "description": "Private duty home nurse services including wellness visits, vitals, medication oversight, and chronic care support."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Personalized Care Management Boca Raton",
+            "description": "Care coordination and aging-in-place support tailored to Boca residents and families."
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.yourwebsite.com/" />
+</head>
+<body>
+  <noscript>You need JavaScript to run this app.</noscript>
+  <div id="root"></div>
+</body>
 </html>

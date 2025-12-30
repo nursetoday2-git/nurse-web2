@@ -46,7 +46,7 @@
 
 .logo-text {
   font-family: 'Boowie', sans-serif;
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #49796B;
   letter-spacing: 1px;
@@ -67,8 +67,8 @@
 
 .desktop-nav a {
   font-family: "proxima-nova", "Helvetica Nueue", helvetica, arial, sans-serif;
-  padding: 12px 28px;
-  font-size: 1rem;
+  padding: 12px 32px;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #49796B;
   text-decoration: none;
@@ -241,8 +241,8 @@
   }
   
   .desktop-nav a {
-    padding: 10px 18px;
-    font-size: 0.85rem;
+    padding: 10px 25px;
+    font-size: 0.80rem;
   }
   
   .logo {
@@ -261,8 +261,8 @@
 
 @media (max-width: 1180px) {
   .desktop-nav a {
-    padding: 9px 16px;
-    font-size: 0.82rem;
+    padding: 9px 22px;
+    font-size: 0.80rem;
     letter-spacing: 0.3px;
   }
   
@@ -346,7 +346,7 @@
   }
   
   .logo-text {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
   
   .sidebar {
@@ -381,4 +381,23 @@
   .sidebar {
     width: 260px;
   }
+}
+
+
+
+/* Schedule A Call Button - Green Background */
+.desktop-nav a.schedule-call-btn,
+.sidebar-nav a.schedule-call-btn {
+  background: #49796B !important;
+  color: white !important;
+  border: 1px solid #49796B !important;
+}
+
+.desktop-nav a.schedule-call-btn:hover,
+.sidebar-nav a.schedule-call-btn:hover {
+  background: #3a6256 !important;
+  color: white !important;
+  box-shadow: 
+    0 10px 30px rgba(73, 121, 107, 0.3),
+    0 0 40px rgba(73, 121, 107, 0.2);
 }
