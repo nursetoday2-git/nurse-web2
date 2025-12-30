@@ -29,7 +29,7 @@ function Header() {
       <header className="header-body">
         <div className="header-container">
           <div className="logo">
-            <span className="logo-text">Nurse in boca</span>
+            <span className="logo-text">Nurse in lancaster</span>
           </div>
           <nav className="desktop-nav">
             <Link to="/" onClick={scrollToTop}>Home</Link>

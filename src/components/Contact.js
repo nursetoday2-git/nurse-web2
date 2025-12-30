@@ -7,7 +7,7 @@ const contactContent = {
   subtitle: "Expert Nursing Services for Optimal Health and Wellness",
   company: "Holistic Concierge Nursing",
   info: {
-    address: "Boca Raton",
+    address: "Lancaster, PA",
     phone: "561-595-1617",
     email: "cheryl@nursetoday.info",
     hours: "Available for Nursing 24/7",

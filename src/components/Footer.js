@@ -62,7 +62,7 @@ function Footer() {
             </li>
             <li>
               <span className="contact-icon">📍</span>
-              <span>Boca Raton</span>
+              <span>Lancaster PA</span>
             </li>
           </ul>
           <div className="footer-cta">
