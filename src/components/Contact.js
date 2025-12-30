@@ -8,7 +8,7 @@ const contactContent = {
   company: "Holistic Concierge Nursing",
   info: {
     address: "Lancaster, PA",
-    phone: "561-595-1617",
+    phone: "717-686-7193",
     email: "cheryl@nursetoday.info",
     hours: "Available for Nursing 24/7",
   },
