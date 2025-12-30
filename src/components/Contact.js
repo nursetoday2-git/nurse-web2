@@ -18,7 +18,7 @@ const contactContent = {
   ],
   copyright: "© 2025 Nurse Today",
   buttons: [
-    { label: "📞 Call Now", action: "tel:+15615951617" },
+    { label: "📞 Call Now", action: "tel:+17176867193" },
     { label: "📧 Email Us", action: "mailto:cheryl@nursetoday.info" },
     { label: "📍 Get Directions", action: "https://www.google.com/maps/search/Lancaster,+PA" }
   ]

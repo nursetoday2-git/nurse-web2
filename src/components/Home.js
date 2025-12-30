@@ -183,7 +183,7 @@ function Home() {
           ))}
         </div>
         <div className="about-cta">
-          <a href="tel:+15615951617" className="cta-button" style={{ textDecoration: 'none' }}>
+          <a href="tel:+17176867193" className="cta-button" style={{ textDecoration: 'none' }}>
             Request a Confidential Call
           </a>
         </div>

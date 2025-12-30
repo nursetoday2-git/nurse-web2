@@ -54,7 +54,7 @@ function Footer() {
           <ul className="contact-info">
             <li>
               <span className="contact-icon">📞</span>
-              <a href="tel:+15615951617">+1 (561) 595-1617</a>
+              <a href="tel:+17176867193">+1 (717) 686-7193</a>
             </li>
             <li>
               <span className="contact-icon">✉</span>
